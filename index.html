@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_ffc0fc02d7b6330c5a87fd45996699d2 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/ardhi/Leaflet.MousePosition/src/L.Control.MousePosition.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ardhi/Leaflet.MousePosition/src/L.Control.MousePosition.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.css"/>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_ffc0fc02d7b6330c5a87fd45996699d2" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_ffc0fc02d7b6330c5a87fd45996699d2 = L.map(
+                "map_ffc0fc02d7b6330c5a87fd45996699d2",
+                {
+                    center: [24.205, 120.61],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 15,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_ffc0fc02d7b6330c5a87fd45996699d2);
+
+            
+
+        
+    
+            var tile_layer_3b0ccaad8366b1616e94eadc9939538d = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_3b0ccaad8366b1616e94eadc9939538d.addTo(map_ffc0fc02d7b6330c5a87fd45996699d2);
+        
+    
+            var tile_layer_5a231917e3ca5f0eb322cd7d24d9e573 = L.tileLayer(
+                "https://mt1.google.com/vt/lyrs=s\u0026x={x}\u0026y={y}\u0026z={z}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Google",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_5a231917e3ca5f0eb322cd7d24d9e573.addTo(map_ffc0fc02d7b6330c5a87fd45996699d2);
+        
+    
+            var feature_group_b8340d8b4fefe358b2b08bee146befda = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_02f0f8e3e63e2df532b8bc7e140d3c73 = L.polygon(
+                [[24.210748, 120.613622], [24.212753, 120.614386], [24.212835, 120.614151], [24.213276, 120.614314], [24.21337, 120.614092], [24.213669, 120.614195], [24.213693, 120.614135], [24.214217, 120.614355], [24.214181, 120.614447], [24.214289, 120.614508], [24.214259, 120.614672], [24.214715, 120.614855], [24.213774, 120.617844], [24.211415, 120.616943], [24.210194, 120.616207], [24.210371, 120.615796], [24.210087, 120.615588]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b8340d8b4fefe358b2b08bee146befda);
+        
+    
+        var popup_7b8c92816152768d5b8e3c70f530db15 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a171f05afd368096a5a251735b5eb5d5 = $(`<div id="html_a171f05afd368096a5a251735b5eb5d5" style="width: 100.0%; height: 100.0%;"><b>台積電 15A 廠</b></div>`)[0];
+                popup_7b8c92816152768d5b8e3c70f530db15.setContent(html_a171f05afd368096a5a251735b5eb5d5);
+            
+        
+
+        polygon_02f0f8e3e63e2df532b8bc7e140d3c73.bindPopup(popup_7b8c92816152768d5b8e3c70f530db15)
+        ;
+
+        
+    
+    
+            polygon_02f0f8e3e63e2df532b8bc7e140d3c73.bindTooltip(
+                `<div>
+                     台積電 15A 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_7bfe4dffbc3a95b9dffa6157b848b754 = L.polygon(
+                [[24.207266, 120.604354], [24.211896, 120.605976], [24.211193, 120.608122], [24.210209, 120.6078], [24.209502, 120.610195], [24.207666, 120.609473], [24.207899, 120.608511], [24.20725, 120.608247], [24.207655, 120.607025], [24.206988, 120.606751], [24.207289, 120.605672], [24.206855, 120.605507]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b8340d8b4fefe358b2b08bee146befda);
+        
+    
+        var popup_8f2c31c43e1131f9959f909f74977fba = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4ff7fc4fcf101d87466e44cdb58f2090 = $(`<div id="html_4ff7fc4fcf101d87466e44cdb58f2090" style="width: 100.0%; height: 100.0%;"><b>台積電 15B 廠</b></div>`)[0];
+                popup_8f2c31c43e1131f9959f909f74977fba.setContent(html_4ff7fc4fcf101d87466e44cdb58f2090);
+            
+        
+
+        polygon_7bfe4dffbc3a95b9dffa6157b848b754.bindPopup(popup_8f2c31c43e1131f9959f909f74977fba)
+        ;
+
+        
+    
+    
+            polygon_7bfe4dffbc3a95b9dffa6157b848b754.bindTooltip(
+                `<div>
+                     台積電 15B 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_77c971679af7fd7142e5bfa4ebb352ce = L.polygon(
+                [[24.214941, 120.615113], [24.215863, 120.615447], [24.21575, 120.615847], [24.216071, 120.615973], [24.215202, 120.618677], [24.213999, 120.61823]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b8340d8b4fefe358b2b08bee146befda);
+        
+    
+        var popup_6efa2010a14f7f2a2fa595e28938dcb7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c85b5a574da6c0456fb06d532df6b745 = $(`<div id="html_c85b5a574da6c0456fb06d532df6b745" style="width: 100.0%; height: 100.0%;"><b>台積電 AP5 廠</b></div>`)[0];
+                popup_6efa2010a14f7f2a2fa595e28938dcb7.setContent(html_c85b5a574da6c0456fb06d532df6b745);
+            
+        
+
+        polygon_77c971679af7fd7142e5bfa4ebb352ce.bindPopup(popup_6efa2010a14f7f2a2fa595e28938dcb7)
+        ;
+
+        
+    
+    
+            polygon_77c971679af7fd7142e5bfa4ebb352ce.bindTooltip(
+                `<div>
+                     台積電 AP5 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_ee033dbbb4aab29973f450b5ffe52742 = L.polygon(
+                [[24.217901, 120.618393], [24.218547, 120.617499], [24.218812, 120.617482], [24.218866, 120.617578], [24.218868, 120.618118], [24.219117, 120.618159], [24.219097, 120.620247], [24.21854, 120.6205], [24.217917, 120.620484], [24.217735, 120.620346]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b8340d8b4fefe358b2b08bee146befda);
+        
+    
+        var popup_778a265ae63ace1c8160edc99017c082 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_95edc62969cd878fec7838d1ffb72061 = $(`<div id="html_95edc62969cd878fec7838d1ffb72061" style="width: 100.0%; height: 100.0%;"><b>台中零廢製造中心</b></div>`)[0];
+                popup_778a265ae63ace1c8160edc99017c082.setContent(html_95edc62969cd878fec7838d1ffb72061);
+            
+        
+
+        polygon_ee033dbbb4aab29973f450b5ffe52742.bindPopup(popup_778a265ae63ace1c8160edc99017c082)
+        ;
+
+        
+    
+    
+            polygon_ee033dbbb4aab29973f450b5ffe52742.bindTooltip(
+                `<div>
+                     台中零廢製造中心
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_592d681e97674949e1c1024826c88260 = L.polygon(
+                [[22.709036, 120.309586], [22.710023, 120.311178], [22.71044, 120.310996], [22.711394, 120.31252], [22.711269, 120.312668], [22.711647, 120.313366], [22.708753, 120.315414], [22.707774, 120.313353], [22.707393, 120.313551], [22.706121, 120.311368]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b8340d8b4fefe358b2b08bee146befda);
+        
+    
+        var popup_b1bd5287fff3d48a01df69c616f244e6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_806e27eba79240183a4ac516f67e9d7b = $(`<div id="html_806e27eba79240183a4ac516f67e9d7b" style="width: 100.0%; height: 100.0%;"><b>台積電 F22 廠</b></div>`)[0];
+                popup_b1bd5287fff3d48a01df69c616f244e6.setContent(html_806e27eba79240183a4ac516f67e9d7b);
+            
+        
+
+        polygon_592d681e97674949e1c1024826c88260.bindPopup(popup_b1bd5287fff3d48a01df69c616f244e6)
+        ;
+
+        
+    
+    
+            polygon_592d681e97674949e1c1024826c88260.bindTooltip(
+                `<div>
+                     台積電 F22 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_9e2b92784a9ed06dd27fcb327adb699a = L.polygon(
+                [[24.884367, 121.184084], [24.88423, 121.186584], [24.882323, 121.186456], [24.882495, 121.183958]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b8340d8b4fefe358b2b08bee146befda);
+        
+    
+        var popup_db2aabafa6f6bf4eb3d05d5ed6279955 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c77a8d46cb3c6c8d64ca4e3b7addcef4 = $(`<div id="html_c77a8d46cb3c6c8d64ca4e3b7addcef4" style="width: 100.0%; height: 100.0%;"><b>台積電 AP3 廠</b></div>`)[0];
+                popup_db2aabafa6f6bf4eb3d05d5ed6279955.setContent(html_c77a8d46cb3c6c8d64ca4e3b7addcef4);
+            
+        
+
+        polygon_9e2b92784a9ed06dd27fcb327adb699a.bindPopup(popup_db2aabafa6f6bf4eb3d05d5ed6279955)
+        ;
+
+        
+    
+    
+            polygon_9e2b92784a9ed06dd27fcb327adb699a.bindTooltip(
+                `<div>
+                     台積電 AP3 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_03d579711fb3731c188bc22df1b40494 = L.polygon(
+                [[24.70323, 120.908459], [24.703207, 120.906236], [24.709369, 120.906242], [24.709336, 120.908146]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b8340d8b4fefe358b2b08bee146befda);
+        
+    
+        var popup_49052f9896d447e27ef5bf1041789eda = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_94340e050f05ef62e628a612fdb23153 = $(`<div id="html_94340e050f05ef62e628a612fdb23153" style="width: 100.0%; height: 100.0%;"><b>台積電 AP6 廠</b></div>`)[0];
+                popup_49052f9896d447e27ef5bf1041789eda.setContent(html_94340e050f05ef62e628a612fdb23153);
+            
+        
+
+        polygon_03d579711fb3731c188bc22df1b40494.bindPopup(popup_49052f9896d447e27ef5bf1041789eda)
+        ;
+
+        
+    
+    
+            polygon_03d579711fb3731c188bc22df1b40494.bindTooltip(
+                `<div>
+                     台積電 AP6 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_b8340d8b4fefe358b2b08bee146befda.addTo(map_ffc0fc02d7b6330c5a87fd45996699d2);
+        
+    
+            var feature_group_b300749c86ba68101e29152aa55700f7 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_9176894c1a1c792db559f34af916f0f8 = L.marker(
+                [24.225628, 120.568794],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_4a13ebdaff7d5b1fb11089f8dd4280a3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_9176894c1a1c792db559f34af916f0f8.bindTooltip(
+                `<div>
+                     沙鹿站
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9176894c1a1c792db559f34af916f0f8.setIcon(icon_4a13ebdaff7d5b1fb11089f8dd4280a3);
+            
+    
+            var marker_2065ab1a5daa15360848e1c79fee07bb = L.marker(
+                [24.162197, 120.616917],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_0dea3280f5e781d626e62d2e5eae1b11 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_2065ab1a5daa15360848e1c79fee07bb.bindTooltip(
+                `<div>
+                     西屯站
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2065ab1a5daa15360848e1c79fee07bb.setIcon(icon_0dea3280f5e781d626e62d2e5eae1b11);
+            
+    
+            var marker_1f96b7fefef58e76c16aa36cdd1cd6ac = L.marker(
+                [24.151958, 120.641092],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_8ea70892bb18861f7c14df854be1e5e3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_1f96b7fefef58e76c16aa36cdd1cd6ac.bindTooltip(
+                `<div>
+                     忠明站
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1f96b7fefef58e76c16aa36cdd1cd6ac.setIcon(icon_8ea70892bb18861f7c14df854be1e5e3);
+            
+    
+            var marker_647706e0b262e00d558234d670d8618f = L.marker(
+                [22.733667, 120.328289],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_236bed658fb435c132dee8d48eb34895 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_647706e0b262e00d558234d670d8618f.bindTooltip(
+                `<div>
+                     楠梓站
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_647706e0b262e00d558234d670d8618f.setIcon(icon_236bed658fb435c132dee8d48eb34895);
+            
+    
+            var marker_ed1e2b0ad88032cb67c48574b3890c0e = L.marker(
+                [22.674861, 120.292917],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_67d639362a0104c28cc93c98d6c42984 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_ed1e2b0ad88032cb67c48574b3890c0e.bindTooltip(
+                `<div>
+                     左營站
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ed1e2b0ad88032cb67c48574b3890c0e.setIcon(icon_67d639362a0104c28cc93c98d6c42984);
+            
+    
+            var marker_f82635810e6a5aae5c315f0d76a8bcb3 = L.marker(
+                [22.689056, 120.332631],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_14af43c3d0e9f89bfa094fcaa4a656bf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_f82635810e6a5aae5c315f0d76a8bcb3.bindTooltip(
+                `<div>
+                     仁武站
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f82635810e6a5aae5c315f0d76a8bcb3.setIcon(icon_14af43c3d0e9f89bfa094fcaa4a656bf);
+            
+    
+            var marker_247348cd136b96bfce492caac61f9f58 = L.marker(
+                [24.86400048, 121.21645772],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_e462b268228e203d79c035f3990572ac = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_247348cd136b96bfce492caac61f9f58.bindTooltip(
+                `<div>
+                     龍潭
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_247348cd136b96bfce492caac61f9f58.setIcon(icon_e462b268228e203d79c035f3990572ac);
+            
+    
+            var marker_1179bf76d2867cdd550addf23372117d = L.marker(
+                [24.8056356, 120.97236752],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_6ed37a4e44ce18b4627203e645c8663e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_1179bf76d2867cdd550addf23372117d.bindTooltip(
+                `<div>
+                     新竹
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1179bf76d2867cdd550addf23372117d.setIcon(icon_6ed37a4e44ce18b4627203e645c8663e);
+            
+    
+            var marker_6b8aee7e6747c106a474c425718a24f9 = L.marker(
+                [24.69690679, 120.89869286],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_315ac25ec468fd73bce9625adac96055 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_6b8aee7e6747c106a474c425718a24f9.bindTooltip(
+                `<div>
+                     頭份
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6b8aee7e6747c106a474c425718a24f9.setIcon(icon_315ac25ec468fd73bce9625adac96055);
+            
+    
+            var marker_c149e0c85f10986be99f10c1a0826f8c = L.marker(
+                [23.46538, 120.2478],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_97484441d4aec9f2b6dea3a5e26456c6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_c149e0c85f10986be99f10c1a0826f8c.bindTooltip(
+                `<div>
+                     朴子
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c149e0c85f10986be99f10c1a0826f8c.setIcon(icon_97484441d4aec9f2b6dea3a5e26456c6);
+            
+    
+            var marker_073b0eff2f1db2e6e7cb99c97f1eb6af = L.marker(
+                [23.46477865, 120.44125148],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_2a5e60b1616db5484afd8ed3990ec137 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_073b0eff2f1db2e6e7cb99c97f1eb6af.bindTooltip(
+                `<div>
+                     嘉義
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_073b0eff2f1db2e6e7cb99c97f1eb6af.setIcon(icon_2a5e60b1616db5484afd8ed3990ec137);
+            
+    
+            var marker_1e09bcfa0208140c759bd7db7c3b95f7 = L.marker(
+                [23.554839, 120.345531],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_e5721a5c5c8b06eade4cb910148d78b4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_1e09bcfa0208140c759bd7db7c3b95f7.bindTooltip(
+                `<div>
+                     新港
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1e09bcfa0208140c759bd7db7c3b95f7.setIcon(icon_e5721a5c5c8b06eade4cb910148d78b4);
+            
+    
+            var marker_8b11c3cd06ebaafcf8700c235a738f27 = L.marker(
+                [23.11337642, 120.29740529],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_f926ced6955d3bcb1bf6c0b9407e3be2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_8b11c3cd06ebaafcf8700c235a738f27.bindTooltip(
+                `<div>
+                     善化
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8b11c3cd06ebaafcf8700c235a738f27.setIcon(icon_f926ced6955d3bcb1bf6c0b9407e3be2);
+            
+    
+            var marker_e3fcc99d3a10420f047cec865869b906 = L.marker(
+                [23.048197, 120.2175],
+                {
+}
+            ).addTo(feature_group_b300749c86ba68101e29152aa55700f7);
+        
+    
+            var icon_97f0e88876e88707517e7507c951a2ad = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_e3fcc99d3a10420f047cec865869b906.bindTooltip(
+                `<div>
+                     安南
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e3fcc99d3a10420f047cec865869b906.setIcon(icon_97f0e88876e88707517e7507c951a2ad);
+            
+    
+            feature_group_b300749c86ba68101e29152aa55700f7.addTo(map_ffc0fc02d7b6330c5a87fd45996699d2);
+        
+    
+            var feature_group_2cdfb88f5c5273bf30514f7f51767065 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_11839e80a13eb1bfda1c3021eae4a2c1 = L.marker(
+                [24.22139, 120.63194],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_85fdc0fd2524abb1a35cb9f35bc0f9ef = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_11839e80a13eb1bfda1c3021eae4a2c1.bindTooltip(
+                `<div>
+                     中科陽明(陽明國小)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_11839e80a13eb1bfda1c3021eae4a2c1.setIcon(icon_85fdc0fd2524abb1a35cb9f35bc0f9ef);
+            
+    
+            var marker_709f960cb83910591874bd5607a7a16a = L.marker(
+                [24.19361, 120.60861],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_c61ff5e2dd3d36359c98cce720e00e18 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_709f960cb83910591874bd5607a7a16a.bindTooltip(
+                `<div>
+                     中科國安(國安國小)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_709f960cb83910591874bd5607a7a16a.setIcon(icon_c61ff5e2dd3d36359c98cce720e00e18);
+            
+    
+            var marker_317626253b78d9af537663e8e903e9ac = L.marker(
+                [24.21111, 120.59833],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_bea5fbb0e60338066d0226739f65b288 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_317626253b78d9af537663e8e903e9ac.bindTooltip(
+                `<div>
+                     中科公園(都會公園)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_317626253b78d9af537663e8e903e9ac.setIcon(icon_bea5fbb0e60338066d0226739f65b288);
+            
+    
+            var marker_d4776cac9ba2f0c7baf12d20f99fb278 = L.marker(
+                [24.22944, 120.62583],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_585999a0d877398320a17a1025bc2458 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_d4776cac9ba2f0c7baf12d20f99fb278.bindTooltip(
+                `<div>
+                     中科實中(實驗中學)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d4776cac9ba2f0c7baf12d20f99fb278.setIcon(icon_585999a0d877398320a17a1025bc2458);
+            
+    
+            var marker_485a30a8e4169528963bca88bfc22fb2 = L.marker(
+                [22.71329, 120.30849],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_797cfd5ecd746797d5a14bde3ae00aa5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_485a30a8e4169528963bca88bfc22fb2.bindTooltip(
+                `<div>
+                     宏毅社區(空品車)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_485a30a8e4169528963bca88bfc22fb2.setIcon(icon_797cfd5ecd746797d5a14bde3ae00aa5);
+            
+    
+            var marker_2be148ce1d85acdb796893ff06c2b2ca = L.marker(
+                [24.887787, 121.1883272],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_ac34db5cb03476a90084344aa9f9c160 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_2be148ce1d85acdb796893ff06c2b2ca.bindTooltip(
+                `<div>
+                     竹科龍潭(環保中心)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2be148ce1d85acdb796893ff06c2b2ca.setIcon(icon_ac34db5cb03476a90084344aa9f9c160);
+            
+    
+            var marker_51fb954f685cf327d82cea736bd72e0a = L.marker(
+                [24.882046, 121.195207],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_23bda40fc5ac13b9e853157f71ddbdbb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_51fb954f685cf327d82cea736bd72e0a.bindTooltip(
+                `<div>
+                     竹科德龍(德龍國小)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_51fb954f685cf327d82cea736bd72e0a.setIcon(icon_23bda40fc5ac13b9e853157f71ddbdbb);
+            
+    
+            var marker_ee00581a6bb5d31652d9043783e211e9 = L.marker(
+                [24.889177, 121.201821],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_0a2023134b960f7d8ba4370ff8e17907 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_ee00581a6bb5d31652d9043783e211e9.bindTooltip(
+                `<div>
+                     竹科聖德(聖德里)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ee00581a6bb5d31652d9043783e211e9.setIcon(icon_0a2023134b960f7d8ba4370ff8e17907);
+            
+    
+            var marker_f524c9d687d03a971bbe8c346ebfac43 = L.marker(
+                [24.784714, 120.991939],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_52ef744ae013a4eb760bddad2eef1116 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_f524c9d687d03a971bbe8c346ebfac43.bindTooltip(
+                `<div>
+                     竹科新安(新安)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f524c9d687d03a971bbe8c346ebfac43.setIcon(icon_52ef744ae013a4eb760bddad2eef1116);
+            
+    
+            var marker_b28b5947ac0f9eeb4cc16330e85fa5fd = L.marker(
+                [24.778281, 121.013773],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_93d51b1a4e8d4182d54eccf894a7d2af = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_b28b5947ac0f9eeb4cc16330e85fa5fd.bindTooltip(
+                `<div>
+                     竹科靜心(靜心湖)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b28b5947ac0f9eeb4cc16330e85fa5fd.setIcon(icon_93d51b1a4e8d4182d54eccf894a7d2af);
+            
+    
+            var marker_af74296004f8dbd231bd8d84127c7da6 = L.marker(
+                [24.76637, 121.016265],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_a0bf5f98d941b0ef48c0a65d05450b3f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_af74296004f8dbd231bd8d84127c7da6.bindTooltip(
+                `<div>
+                     竹科力行(力行)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_af74296004f8dbd231bd8d84127c7da6.setIcon(icon_a0bf5f98d941b0ef48c0a65d05450b3f);
+            
+    
+            var marker_bcda92855aebed2ceeb1d959426ef747 = L.marker(
+                [24.77806, 120.989786],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_4c497cda46805bbdcbc556d4d16d0c15 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_bcda92855aebed2ceeb1d959426ef747.bindTooltip(
+                `<div>
+                     竹科興業(興業)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bcda92855aebed2ceeb1d959426ef747.setIcon(icon_4c497cda46805bbdcbc556d4d16d0c15);
+            
+    
+            var marker_80421cdd1a12df0a97f9d2bdf3e53b33 = L.marker(
+                [24.70966, 120.92154],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_11080419095931ef529d9eeb4f1209ac = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_80421cdd1a12df0a97f9d2bdf3e53b33.bindTooltip(
+                `<div>
+                     竹科南東
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_80421cdd1a12df0a97f9d2bdf3e53b33.setIcon(icon_11080419095931ef529d9eeb4f1209ac);
+            
+    
+            var marker_b82bb040b84ee871fb85b05fb4ead59d = L.marker(
+                [24.71361, 120.91031],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_f37685bf3c6aaeec8e5d44e1618afe6c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_b82bb040b84ee871fb85b05fb4ead59d.bindTooltip(
+                `<div>
+                     竹科南西
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b82bb040b84ee871fb85b05fb4ead59d.setIcon(icon_f37685bf3c6aaeec8e5d44e1618afe6c);
+            
+    
+            var marker_2667fac8b02f6194859cd678195b7534 = L.marker(
+                [24.70611, 120.91282],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_7603886cb7b3f9ba393bad57810fa328 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_2667fac8b02f6194859cd678195b7534.bindTooltip(
+                `<div>
+                     竹科南南
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2667fac8b02f6194859cd678195b7534.setIcon(icon_7603886cb7b3f9ba393bad57810fa328);
+            
+    
+            var marker_feb504dfa1429798f0e3e7147516e9ad = L.marker(
+                [24.70817, 120.89529],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_6408a9820a7830e900a987c8ca2a7406 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_feb504dfa1429798f0e3e7147516e9ad.bindTooltip(
+                `<div>
+                     竹科南北
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_feb504dfa1429798f0e3e7147516e9ad.setIcon(icon_6408a9820a7830e900a987c8ca2a7406);
+            
+    
+            var marker_7c92f4a4991494e90e3b23813e83d963 = L.marker(
+                [23.46248333, 120.172425],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_59570f89606957fa927cadc278bb7e7c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_7c92f4a4991494e90e3b23813e83d963.bindTooltip(
+                `<div>
+                     六輕東石(嘉義東石)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7c92f4a4991494e90e3b23813e83d963.setIcon(icon_59570f89606957fa927cadc278bb7e7c);
+            
+    
+            var marker_ca9fe1c834664f368cc8234beb85bc20 = L.marker(
+                [23.09003889, 120.2845694],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_c818fe503630f5e7b6faabb05969dbbc = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_ca9fe1c834664f368cc8234beb85bc20.bindTooltip(
+                `<div>
+                     南科公13
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ca9fe1c834664f368cc8234beb85bc20.setIcon(icon_c818fe503630f5e7b6faabb05969dbbc);
+            
+    
+            var marker_3a68132d0ac6bff08a24086c253154ef = L.marker(
+                [23.12582, 120.26943],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_6b63ea3517bbbace77358f424aa06092 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_3a68132d0ac6bff08a24086c253154ef.bindTooltip(
+                `<div>
+                     南科公19
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3a68132d0ac6bff08a24086c253154ef.setIcon(icon_6b63ea3517bbbace77358f424aa06092);
+            
+    
+            var marker_6ad63e6dfa42d7b655f8507b0ec67aec = L.marker(
+                [23.10635, 120.2692611],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_7639f2406e6750a9471d6ce5f7ad0d9c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_6ad63e6dfa42d7b655f8507b0ec67aec.bindTooltip(
+                `<div>
+                     南科公29
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6ad63e6dfa42d7b655f8507b0ec67aec.setIcon(icon_7639f2406e6750a9471d6ce5f7ad0d9c);
+            
+    
+            var marker_ee8c9f175e405ebe63717a977a32d38a = L.marker(
+                [23.10739722, 120.2912611],
+                {
+}
+            ).addTo(feature_group_2cdfb88f5c5273bf30514f7f51767065);
+        
+    
+            var icon_2cca205482289116537ee0310cdf729a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_ee8c9f175e405ebe63717a977a32d38a.bindTooltip(
+                `<div>
+                     南科實中
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ee8c9f175e405ebe63717a977a32d38a.setIcon(icon_2cca205482289116537ee0310cdf729a);
+            
+    
+            feature_group_2cdfb88f5c5273bf30514f7f51767065.addTo(map_ffc0fc02d7b6330c5a87fd45996699d2);
+        
+    
+            var feature_group_0adc9b930d0e09e66ee9ea207376efc6 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_f5b712cc24a0da2f6fceaa6b180c79c0 = L.marker(
+                [24.2153, 120.6244],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_07ee20725cffd951bd7f3292cc17f245 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_f5b712cc24a0da2f6fceaa6b180c79c0.bindTooltip(
+                `<div>
+                     大雅(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f5b712cc24a0da2f6fceaa6b180c79c0.setIcon(icon_07ee20725cffd951bd7f3292cc17f245);
+            
+    
+            var marker_bddb73381f0d36715231fc253676a9ba = L.marker(
+                [22.7304, 120.3125],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_989b40d26b37085b74aadd840a160300 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_bddb73381f0d36715231fc253676a9ba.bindTooltip(
+                `<div>
+                     高雄(人工)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bddb73381f0d36715231fc253676a9ba.setIcon(icon_989b40d26b37085b74aadd840a160300);
+            
+    
+            var marker_6b2445a081b378e597e492e2a70ed573 = L.marker(
+                [24.889177, 121.201821],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_dfd7e5f6f22fead77ab360bd5e331e01 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_6b2445a081b378e597e492e2a70ed573.bindTooltip(
+                `<div>
+                     龍潭(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6b2445a081b378e597e492e2a70ed573.setIcon(icon_dfd7e5f6f22fead77ab360bd5e331e01);
+            
+    
+            var marker_5432413ecdec8d2523bb1e34af00a990 = L.marker(
+                [24.7987, 120.9869],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_e25eb68065c64d4cdeedeebbadc3ca64 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_5432413ecdec8d2523bb1e34af00a990.bindTooltip(
+                `<div>
+                     新竹市東區(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5432413ecdec8d2523bb1e34af00a990.setIcon(icon_e25eb68065c64d4cdeedeebbadc3ca64);
+            
+    
+            var marker_13d0ab5a75f19141ea579eb2cd4b3a87 = L.marker(
+                [24.735, 121.0252],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_1a9025e934acaa9154c1678fa48de453 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_13d0ab5a75f19141ea579eb2cd4b3a87.bindTooltip(
+                `<div>
+                     寶山(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_13d0ab5a75f19141ea579eb2cd4b3a87.setIcon(icon_1a9025e934acaa9154c1678fa48de453);
+            
+    
+            var marker_4b4ad5bebf8b2b0e1fe6fd3a27b97953 = L.marker(
+                [24.7671, 121.0579],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_bc9d3b03550060099919da90c13ab4ec = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_4b4ad5bebf8b2b0e1fe6fd3a27b97953.bindTooltip(
+                `<div>
+                     竹東(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4b4ad5bebf8b2b0e1fe6fd3a27b97953.setIcon(icon_bc9d3b03550060099919da90c13ab4ec);
+            
+    
+            var marker_ec248c163806276c514b1a54cd0ad684 = L.marker(
+                [24.6882, 120.9122],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_15e6815f4a61f8a3683b3746b7e484f0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_ec248c163806276c514b1a54cd0ad684.bindTooltip(
+                `<div>
+                     頭份(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ec248c163806276c514b1a54cd0ad684.setIcon(icon_15e6815f4a61f8a3683b3746b7e484f0);
+            
+    
+            var marker_5010e68c9ce17a21791023452a6aaaac = L.marker(
+                [24.7, 120.8591],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_ebd51e50a87369c24cd5abea4aaefc83 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_5010e68c9ce17a21791023452a6aaaac.bindTooltip(
+                `<div>
+                     龍鳳(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5010e68c9ce17a21791023452a6aaaac.setIcon(icon_ebd51e50a87369c24cd5abea4aaefc83);
+            
+    
+            var marker_be49a9af737b7c08f080e058177859e6 = L.marker(
+                [23.4929, 120.2906],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_89fb669bf8d0301985ff7fa984405090 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_be49a9af737b7c08f080e058177859e6.bindTooltip(
+                `<div>
+                     六腳(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_be49a9af737b7c08f080e058177859e6.setIcon(icon_89fb669bf8d0301985ff7fa984405090);
+            
+    
+            var marker_7059f417a90a654b938bba9ec9ed3499 = L.marker(
+                [23.5143, 120.2297],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_9cb7bccb3bb6d6aae221cd7081664975 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_7059f417a90a654b938bba9ec9ed3499.bindTooltip(
+                `<div>
+                     蔦松(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7059f417a90a654b938bba9ec9ed3499.setIcon(icon_9cb7bccb3bb6d6aae221cd7081664975);
+            
+    
+            var marker_619dc22d93b89c3402053844da89459a = L.marker(
+                [23.1129, 120.2972],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_400782de30af51b32b23accda2f5c3a8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_619dc22d93b89c3402053844da89459a.bindTooltip(
+                `<div>
+                     善化(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_619dc22d93b89c3402053844da89459a.setIcon(icon_400782de30af51b32b23accda2f5c3a8);
+            
+    
+            var marker_1a592a48ca62e1ce3d7c7417652287c3 = L.marker(
+                [23.1026, 120.2276],
+                {
+}
+            ).addTo(feature_group_0adc9b930d0e09e66ee9ea207376efc6);
+        
+    
+            var icon_5be4a7be6180161f490c334e69038e66 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_1a592a48ca62e1ce3d7c7417652287c3.bindTooltip(
+                `<div>
+                     安定(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1a592a48ca62e1ce3d7c7417652287c3.setIcon(icon_5be4a7be6180161f490c334e69038e66);
+            
+    
+            feature_group_0adc9b930d0e09e66ee9ea207376efc6.addTo(map_ffc0fc02d7b6330c5a87fd45996699d2);
+        
+    
+            var layer_control_6526e6117edb8c49d66adb012a6bd8a7_layers = {
+                base_layers : {
+                    "OpenStreetMap" : tile_layer_3b0ccaad8366b1616e94eadc9939538d,
+                    "Google Satellite" : tile_layer_5a231917e3ca5f0eb322cd7d24d9e573,
+                },
+                overlays :  {
+                    "\u5ee0\u5340\u7bc4\u570d" : feature_group_b8340d8b4fefe358b2b08bee146befda,
+                    "\u74b0\u5883\u90e8\u6e2c\u7ad9" : feature_group_b300749c86ba68101e29152aa55700f7,
+                    "\u7279\u6b8a\u6027\u5de5\u696d\u5340\u6e2c\u7ad9" : feature_group_2cdfb88f5c5273bf30514f7f51767065,
+                    "\u6c23\u8c61\u7f72\u6e2c\u7ad9" : feature_group_0adc9b930d0e09e66ee9ea207376efc6,
+                },
+            };
+            let layer_control_6526e6117edb8c49d66adb012a6bd8a7 = L.control.layers(
+                layer_control_6526e6117edb8c49d66adb012a6bd8a7_layers.base_layers,
+                layer_control_6526e6117edb8c49d66adb012a6bd8a7_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_ffc0fc02d7b6330c5a87fd45996699d2);
+
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_ffc0fc02d7b6330c5a87fd45996699d2);
+        
+    
+            var mouse_position_b0f4bc660839cb8ef90e49e8343c5772 = new L.Control.MousePosition(
+                {
+  "position": "bottomright",
+  "separator": " : ",
+  "emptyString": "Unavailable",
+  "lngFirst": false,
+  "numDigits": 5,
+  "prefix": "",
+}
+            );
+            mouse_position_b0f4bc660839cb8ef90e49e8343c5772.options["latFormatter"] =
+                undefined;
+            mouse_position_b0f4bc660839cb8ef90e49e8343c5772.options["lngFormatter"] =
+                undefined;
+            map_ffc0fc02d7b6330c5a87fd45996699d2.addControl(mouse_position_b0f4bc660839cb8ef90e49e8343c5772);
+        
+    
+            var measure_control_8bd160fddb39a0087382a76ca8100a30 = new L.Control.Measure(
+                {
+  "position": "topleft",
+  "primaryLengthUnit": "kilometers",
+  "secondaryLengthUnit": "meters",
+  "primaryAreaUnit": "sqmeters",
+  "secondaryAreaUnit": "acres",
+  "activeColor": "red",
+  "completedColor": "red",
+});
+            map_ffc0fc02d7b6330c5a87fd45996699d2.addControl(measure_control_8bd160fddb39a0087382a76ca8100a30);
+
+            // Workaround for using this plugin with Leaflet>=1.8.0
+            // https://github.com/ljagis/leaflet-measure/issues/171
+            L.Control.Measure.include({
+                _setCaptureMarkerIcon: function () {
+                    // disable autopan
+                    this._captureMarker.options.autoPanOnFocus = false;
+                    // default function
+                    this._captureMarker.setIcon(
+                        L.divIcon({
+                            iconSize: this._map.getSize().multiplyBy(2)
+                        })
+                    );
+                },
+            });
+
+        
+</script>
+</html>
