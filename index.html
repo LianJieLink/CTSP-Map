@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_cca190194c91863007fac35779e5695a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/ardhi/Leaflet.MousePosition/src/L.Control.MousePosition.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ardhi/Leaflet.MousePosition/src/L.Control.MousePosition.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.css"/>
+</head>
+<body>
+    
+    
+<script>
+window.makePopupDraggable = function(e) {
+    let popupContainer = e.popup._container;
+    if (popupContainer.dataset.draggable) return;
+    popupContainer.dataset.draggable = "true";
+    let header = popupContainer.querySelector('.drag-header');
+    if (!header) return;
+    
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    header.onmousedown = function(ev) {
+        ev = ev || window.event;
+        ev.preventDefault();
+        pos3 = ev.clientX;
+        pos4 = ev.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+    };
+    function elementDrag(ev) {
+        ev = ev || window.event;
+        ev.preventDefault();
+        pos1 = pos3 - ev.clientX;
+        pos2 = pos4 - ev.clientY;
+        pos3 = ev.clientX;
+        pos4 = ev.clientY;
+        let mb = parseInt(window.getComputedStyle(popupContainer).marginBottom || 0);
+        let ml = parseInt(window.getComputedStyle(popupContainer).marginLeft || 0);
+        popupContainer.style.marginBottom = (mb + pos2) + "px";
+        popupContainer.style.marginLeft = (ml - pos1) + "px";
+    }
+    function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+};
+document.addEventListener('DOMContentLoaded', function() {
+    const urls = [
+        "https://data.moenv.gov.tw/api/v2/aqx_p_138?api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_139?api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_140?api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_141?api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_142?api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_146?api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_147?api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_149?api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_150?api_key=c26e8777-0479-4287-aa2f-054299ae4a25"
+    ];
+
+    let moenvData = {};
+    let env_pts = {"\u6c99\u9e7f": [24.225628, 120.568794], "\u897f\u5c6f": [24.162197, 120.616917], "\u5fe0\u660e": [24.151958, 120.641092], "\u6960\u6893": [22.733667, 120.328289], "\u5de6\u71df": [22.674861, 120.292917], "\u4ec1\u6b66": [22.689056, 120.332631], "\u9f8d\u6f6d": [24.86400048, 121.21645772], "\u65b0\u7af9": [24.8056356, 120.97236752], "\u7af9\u6771": [24.74091408, 121.08895493], "\u982d\u4efd": [24.69690679, 120.89869286], "\u6734\u5b50": [23.46538, 120.2478], "\u5609\u7fa9": [23.46477865, 120.44125148], "\u65b0\u6e2f": [23.554839, 120.345531], "\u5584\u5316": [23.11337642, 120.29740529], "\u5b89\u5357": [23.048197, 120.2175]};
+
+    function formatLST(dt_str) {
+        if (!dt_str || dt_str === "N/A") return "N/A";
+        // API returns "YYYY-MM-DD HH:MM" in LST directly. Just append seconds.
+        return dt_str + ":00";
+    }
+
+    Promise.all(urls.map(url => fetch(url).then(res => res.json()).catch(e => null)))
+        .then(results => {
+            results.forEach(data => {
+                if (!data) return;
+                const records = Array.isArray(data) ? data : (data.records || []);
+                records.forEach(record => {
+                    const st = record.sitename;
+                    if (!moenvData[st]) moenvData[st] = {};
+                    
+                    const param = record.itemengname;
+                    let pName = param;
+                    if (param === 'WIND_DIREC') pName = 'WindDirec';
+                    if (param === 'WIND_SPEED') pName = 'WindSpeed';
+                    if (param === 'AM_TEMP') pName = 'Temp';
+                    if (param === 'RH') pName = 'Humid';
+                    
+                    let recordTime = record.monitordate || "";
+                    let currentParamTime = moenvData[st][pName + "_time"] || "";
+                    
+                    // Keep only the latest data for each metric
+                    if (!currentParamTime || recordTime >= currentParamTime) {
+                        moenvData[st][pName] = record.concentration;
+                        moenvData[st][pName + "_time"] = recordTime;
+                        
+                        // Update the overall station update_time to the maximum monitor date
+                        let currentStTime = moenvData[st]['update_time'] || "";
+                        if (!currentStTime || recordTime >= currentStTime) {
+                            moenvData[st]['update_time'] = recordTime;
+                        }
+                    }
+                });
+            });
+
+            let layerGroup = feature_group_cdb786b71e6935f0e8b70fa2ade8b383;
+            Object.keys(env_pts).forEach(function(base_name) {
+                let clean_name = base_name.replace("站", "");
+                let st_info = moenvData[clean_name] || {};
+                
+                let pm10 = st_info["PM10"] || "N/A";
+                let pm25 = st_info["PM2.5"] || "N/A";
+                let no2 = st_info["NO2"] || "N/A";
+                let so2 = st_info["SO2"] || "N/A";
+                let o3 = st_info["O3"] || "N/A";
+                let co = st_info["CO"] || "N/A";
+                let wd = st_info["WindDirec"] || "N/A";
+                let ws = st_info["WindSpeed"] || "N/A";
+                let temp = st_info["Temp"] || "N/A";
+                let humid = st_info["Humid"] || "N/A";
+                let dt_str = formatLST(st_info["update_time"]);
+                
+                let metrics = [
+                    {val: pm10, label: 'PM10', unit: 'μg/m³'},
+                    {val: pm25, label: 'PM2.5', unit: 'μg/m³'},
+                    {val: no2, label: 'NO2', unit: 'ppb'},
+                    {val: so2, label: 'SO2', unit: 'ppb'},
+                    {val: o3, label: 'O3', unit: 'ppb'},
+                    {val: co, label: 'CO', unit: 'ppm'},
+                    {val: temp, label: '溫度', unit: '°C'},
+                    {val: humid, label: '濕度', unit: '%'},
+                    {val: wd, label: '風向', unit: '°'},
+                    {val: ws, label: '風速', unit: 'm/s'}
+                ];
+                let rowsHtml = "";
+                metrics.forEach(m => {
+                    if (m.val && m.val !== "N/A") {
+                        rowsHtml += `<tr style='border-bottom: 1px solid #eee;'><td style='color: #666; padding: 2px 0;'>${m.label}</td><td style='text-align: right;'><b>${m.val}</b> <span style='font-size: 10px; color: #888;'>${m.unit}</span></td></tr>`;
+                    }
+                });
+
+                let tooltip_html = `<div style='font-family: "Segoe UI", Arial, sans-serif; font-size: 13px; width: 170px; background-color: transparent;'>
+                    <div class='drag-header' style='cursor: move; font-size: 14px; font-weight: bold; color: #333; margin-bottom: 5px; border-bottom: 2px solid #3498db; padding-bottom: 3px;'>
+                        📍 ${base_name} <span style='font-size:10px;color:#666;'>(環境部)</span>
+                    </div>
+                    <table style='width: 100%; border-collapse: collapse;'>
+                        ${rowsHtml}
+                    </table>
+                    <div style='margin-top: 6px; font-size: 10px; color: #999; text-align: center;'>
+                        🕒 擷取時間: ${dt_str}
+                    </div>
+                </div>`;
+
+                let marker = L.marker(env_pts[base_name], {
+                    icon: L.AwesomeMarkers.icon({icon: 'star', markerColor: 'blue', prefix: 'fa', extraClasses: 'fa-rotate-0'})
+                });
+                
+                marker.bindPopup(tooltip_html, {maxWidth: 220, autoClose: false, closeOnClick: false, className: 'draggable-popup'});
+                marker.on('popupopen', window.makePopupDraggable);
+                marker.addTo(layerGroup);
+            });
+        })
+        .catch(err => console.error("Error fetching MOENV APIs:", err));
+});
+</script>
+    
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const indUrls = [
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=1000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=2000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=3000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=4000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=5000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=6000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=7000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=8000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=9000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=10000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=11000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25",
+        "https://data.moenv.gov.tw/api/v2/aqx_p_268?offset=12000&api_key=c26e8777-0479-4287-aa2f-054299ae4a25"
+    ];
+
+    let targetIndPts = {"\u967d\u660e\u570b\u5c0f": [24.22139, 120.63194], "\u570b\u5b89\u570b\u5c0f": [24.19361, 120.60861], "\u90fd\u6703\u516c\u5712": [24.21111, 120.59833], "\u4e2d\u79d1\u5be6\u4e2d": [24.22944, 120.62583], "\u65b0\u5b89": [24.784714, 120.991939], "\u975c\u5fc3\u6e56": [24.778281, 121.013773], "\u529b\u884c": [24.76637, 121.016265], "\u8208\u696d": [24.77806, 120.989786], "\u7af9\u5357\u6771": [24.70966, 120.92154], "\u7af9\u5357\u897f": [24.71361, 120.91031], "\u7af9\u5357\u5357": [24.70611, 120.91282], "\u7af9\u5357\u5317": [24.70817, 120.89529], "\u5609\u7fa9\u7e23\u6771\u77f3": [23.46248333, 120.172425], "\u516c13": [23.09003889, 120.2845694], "\u516c19": [23.12582, 120.26943], "\u516c29": [23.10635, 120.2692611], "\u5357\u79d1\u5be6\u4e2d": [23.10739722, 120.2912611], "\u6cb9\u5ee0\u570b\u5c0f": [22.709434, 120.303392], "\u534a\u5c4f\u5c71\u52a0\u58d3\u7ad9": [22.695393, 120.301884], "\u5712\u5340\u6771\u5357\u7ad9": [22.703263, 120.32075], "\u5712\u5340\u5317\u7ad9": [22.712882, 120.313685]};
+    let indData = {};
+
+    Promise.all(indUrls.map(url => fetch(url).then(r => r.json()).catch(e => null)))
+        .then(results => {
+            results.forEach(data => {
+                if (!data) return;
+                const records = Array.isArray(data) ? data : (data.records || []);
+                records.forEach(record => {
+                    const st = record.dp_no || record.sitename || record.stname || "";
+                    if (!st.includes("陽明") && !st.includes("國安") && !st.includes("都會") && !st.includes("實中") &&
+                        !st.includes("新安") && !st.includes("靜心") && !st.includes("力行") && !st.includes("興業") &&
+                        !st.includes("南東") && !st.includes("南西") && !st.includes("南南") && !st.includes("南北") &&
+                        !st.includes("東石") && !st.includes("公13") && !st.includes("公19") && !st.includes("公29") &&
+                        !st.includes("油廠") && !st.includes("半屏山") && !st.includes("園區東南") && !st.includes("園區北")) return;
+                    
+                    let targetKey = "";
+                    if (st.includes("陽明")) targetKey = "陽明國小";
+                    else if (st.includes("國安")) targetKey = "國安國小";
+                    else if (st.includes("都會") || st.includes("公園")) targetKey = "都會公園";
+                    else if (st.includes("新安")) targetKey = "新安";
+                    else if (st.includes("靜心")) targetKey = "靜心湖";
+                    else if (st.includes("力行")) targetKey = "力行";
+                    else if (st.includes("興業")) targetKey = "興業";
+                    else if (st.includes("南東")) targetKey = "竹南東";
+                    else if (st.includes("南西")) targetKey = "竹南西";
+                    else if (st.includes("南南")) targetKey = "竹南南";
+                    else if (st.includes("南北")) targetKey = "竹南北";
+                    else if (st.includes("東石")) targetKey = "嘉義縣東石";
+                    else if (st.includes("公13")) targetKey = "公13";
+                    else if (st.includes("公19")) targetKey = "公19";
+                    else if (st.includes("公29")) targetKey = "公29";
+                    else if (st.includes("南科實中")) targetKey = "南科實中";
+                    else if (st.includes("油廠")) targetKey = "油廠國小";
+                    else if (st.includes("半屏山")) targetKey = "半屏山加壓站";
+                    else if (st.includes("園區東南")) targetKey = "園區東南站";
+                    else if (st.includes("園區北")) targetKey = "園區北站";
+                    else if (st.includes("實中")) targetKey = "中科實中";
+                    
+                    if (!targetKey) return;
+                    if (!indData[targetKey]) indData[targetKey] = {};
+                    
+                    let pName = (record.desp || record.itemengname || record.itemname || "").toLowerCase();
+                    let param = "";
+                    if (pName.includes("pm10") || (pName.includes("懸浮微粒") && !pName.includes("2.5") && !pName.includes("細"))) param = "PM10";
+                    else if (pName.includes("pm2.5") || pName.includes("細") || pName.includes("細懸浮微粒")) param = "PM2.5";
+                    else if (pName.includes("no2") || pName.includes("二氧化氮")) param = "NO2";
+                    else if (pName.includes("so2") || pName.includes("二氧化硫")) param = "SO2";
+                    else if (pName.includes("o3") || pName.includes("臭氧")) param = "O3";
+                    else if (pName.includes("co") || pName.includes("一氧化碳")) param = "CO";
+                    else if (pName.includes("風向") || pName.includes("direc")) param = "WindDirec";
+                    else if (pName.includes("風速") || pName.includes("speed")) param = "WindSpeed";
+                    else if (pName.includes("溫度") || pName.includes("temp") || pName === "am_temp") param = "Temp";
+                    else if (pName.includes("濕度") || pName.includes("rh") || pName.includes("humid")) param = "Humid";
+                    
+                    if (!param) return;
+                    
+                    let m_date = record.m_date || record.monitordate || "";
+                    let m_time = record.m_time || "";
+                    let formattedTime = "";
+                    if (m_date && m_time && m_time.length === 6) {
+                        formattedTime = `${m_date} ${m_time.substring(0,2)}:00:00`;
+                    } else if (m_date && m_date.includes(":")) {
+                        formattedTime = m_date;
+                    }
+                    
+                    let currentParamTime = indData[targetKey][param + "_time"] || "";
+                    if (!currentParamTime || formattedTime >= currentParamTime) {
+                        indData[targetKey][param] = record.value || record.concentration;
+                        indData[targetKey][param + "_time"] = formattedTime;
+                        
+                        let currentStTime = indData[targetKey]['update_time'] || "";
+                        if (!currentStTime || formattedTime >= currentStTime) {
+                             indData[targetKey]['update_time'] = formattedTime;
+                        }
+                    }
+                });
+            });
+            
+            let layerGroup = feature_group_41658f3777d3ae3091249e15b5311c47;
+            Object.keys(targetIndPts).forEach(function(base_name) {
+                let st_info = indData[base_name] || {};
+                
+                let pm10 = st_info["PM10"] || "N/A";
+                let pm25 = st_info["PM2.5"] || "N/A";
+                let no2 = st_info["NO2"] || "N/A";
+                let so2 = st_info["SO2"] || "N/A";
+                let o3 = st_info["O3"] || "N/A";
+                let co = st_info["CO"] || "N/A";
+                let wd = st_info["WindDirec"] || "N/A";
+                let ws = st_info["WindSpeed"] || "N/A";
+                let temp = st_info["Temp"] || "N/A";
+                let humid = st_info["Humid"] || "N/A";
+                let dt_str = st_info["update_time"] || "N/A";
+                
+                let metrics = [
+                    {val: pm10, label: 'PM10', unit: 'μg/m³'},
+                    {val: pm25, label: 'PM2.5', unit: 'μg/m³'},
+                    {val: no2, label: 'NO2', unit: 'ppb'},
+                    {val: so2, label: 'SO2', unit: 'ppb'},
+                    {val: o3, label: 'O3', unit: 'ppb'},
+                    {val: co, label: 'CO', unit: 'ppm'},
+                    {val: temp, label: '溫度', unit: '°C'},
+                    {val: humid, label: '濕度', unit: '%'},
+                    {val: wd, label: '風向', unit: '°'},
+                    {val: ws, label: '風速', unit: 'm/s'}
+                ];
+                let rowsHtml = "";
+                metrics.forEach(m => {
+                    if (m.val && m.val !== "N/A") {
+                        rowsHtml += `<tr style='border-bottom: 1px solid #eee;'><td style='color: #666; padding: 2px 0;'>${m.label}</td><td style='text-align: right;'><b>${m.val}</b> <span style='font-size: 10px; color: #888;'>${m.unit}</span></td></tr>`;
+                    }
+                });
+                
+                let tooltip_html = `<div style='font-family: "Segoe UI", Arial, sans-serif; font-size: 13px; width: 170px; background-color: transparent;'>
+                    <div class='drag-header' style='cursor: move; font-size: 14px; font-weight: bold; color: #333; margin-bottom: 5px; border-bottom: 2px solid #27ae60; padding-bottom: 3px;'>
+                        📍 ${base_name} <span style='font-size:10px;color:#666;'>(特殊工業區)</span>
+                    </div>
+                    <table style='width: 100%; border-collapse: collapse;'>
+                        ${rowsHtml}
+                    </table>
+                    <div style='margin-top: 6px; font-size: 10px; color: #999; text-align: center;'>
+                        🕒 擷取時間: ${dt_str}
+                    </div>
+                </div>`;
+
+                let marker = L.marker(targetIndPts[base_name], {
+                    icon: L.AwesomeMarkers.icon({icon: 'caret-up', markerColor: 'green', prefix: 'fa', extraClasses: 'fa-rotate-0'})
+                });
+                
+                marker.bindPopup(tooltip_html, {maxWidth: 220, autoClose: false, closeOnClick: false, className: 'draggable-popup'});
+                marker.on('popupopen', window.makePopupDraggable);
+                marker.addTo(layerGroup);
+            });
+        })
+        .catch(err => console.error("Error fetching Industrial APIs:", err));
+});
+</script>
+    
+            <div class="folium-map" id="map_cca190194c91863007fac35779e5695a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_cca190194c91863007fac35779e5695a = L.map(
+                "map_cca190194c91863007fac35779e5695a",
+                {
+                    center: [24.205, 120.61],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 15,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_cca190194c91863007fac35779e5695a);
+
+            
+
+        
+    
+            var tile_layer_3cb94bf03cc98625864cb36dde598c18 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_3cb94bf03cc98625864cb36dde598c18.addTo(map_cca190194c91863007fac35779e5695a);
+        
+    
+            var tile_layer_fb08c2345a0a592170413d55adafaee0 = L.tileLayer(
+                "https://mt1.google.com/vt/lyrs=s\u0026x={x}\u0026y={y}\u0026z={z}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Google",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_fb08c2345a0a592170413d55adafaee0.addTo(map_cca190194c91863007fac35779e5695a);
+        
+    
+            var feature_group_24ccc36b1beddad7518f9f127f90ba95 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_e68231f93989f62265dfbbabe45df2c6 = L.polygon(
+                [[24.210748, 120.613622], [24.212753, 120.614386], [24.212835, 120.614151], [24.213276, 120.614314], [24.21337, 120.614092], [24.213669, 120.614195], [24.213693, 120.614135], [24.214217, 120.614355], [24.214181, 120.614447], [24.214289, 120.614508], [24.214259, 120.614672], [24.214715, 120.614855], [24.213774, 120.617844], [24.211415, 120.616943], [24.210194, 120.616207], [24.210371, 120.615796], [24.210087, 120.615588]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_8da2bb8722a12f6a122391071a104ff2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_31f5443b0140e36970ef6a78ea33dd8e = $(`<div id="html_31f5443b0140e36970ef6a78ea33dd8e" style="width: 100.0%; height: 100.0%;"><b>台積電 15A 廠</b></div>`)[0];
+                popup_8da2bb8722a12f6a122391071a104ff2.setContent(html_31f5443b0140e36970ef6a78ea33dd8e);
+            
+        
+
+        polygon_e68231f93989f62265dfbbabe45df2c6.bindPopup(popup_8da2bb8722a12f6a122391071a104ff2)
+        ;
+
+        
+    
+    
+            polygon_e68231f93989f62265dfbbabe45df2c6.bindTooltip(
+                `<div>
+                     台積電 15A 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_c3984232d9041e0d2523dc90ba7dd9ac = L.polygon(
+                [[24.207266, 120.604354], [24.211896, 120.605976], [24.211193, 120.608122], [24.210209, 120.6078], [24.209502, 120.610195], [24.207666, 120.609473], [24.207899, 120.608511], [24.20725, 120.608247], [24.207655, 120.607025], [24.206988, 120.606751], [24.207289, 120.605672], [24.206855, 120.605507]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_9dd34c3561fd2eec3580d2158a4e4082 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7d2eb6bb16f75d0637811441c943065d = $(`<div id="html_7d2eb6bb16f75d0637811441c943065d" style="width: 100.0%; height: 100.0%;"><b>台積電 15B 廠</b></div>`)[0];
+                popup_9dd34c3561fd2eec3580d2158a4e4082.setContent(html_7d2eb6bb16f75d0637811441c943065d);
+            
+        
+
+        polygon_c3984232d9041e0d2523dc90ba7dd9ac.bindPopup(popup_9dd34c3561fd2eec3580d2158a4e4082)
+        ;
+
+        
+    
+    
+            polygon_c3984232d9041e0d2523dc90ba7dd9ac.bindTooltip(
+                `<div>
+                     台積電 15B 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_2d943ef9694656e0c53fba666bdaefb2 = L.polygon(
+                [[24.214941, 120.615113], [24.215863, 120.615447], [24.21575, 120.615847], [24.216071, 120.615973], [24.215202, 120.618677], [24.213999, 120.61823]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_8a233d2f3a321dffddf8832cd6fa6c0e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2a7ac1402a049769ef86ea63cb1461cc = $(`<div id="html_2a7ac1402a049769ef86ea63cb1461cc" style="width: 100.0%; height: 100.0%;"><b>台積電 AP5 廠</b></div>`)[0];
+                popup_8a233d2f3a321dffddf8832cd6fa6c0e.setContent(html_2a7ac1402a049769ef86ea63cb1461cc);
+            
+        
+
+        polygon_2d943ef9694656e0c53fba666bdaefb2.bindPopup(popup_8a233d2f3a321dffddf8832cd6fa6c0e)
+        ;
+
+        
+    
+    
+            polygon_2d943ef9694656e0c53fba666bdaefb2.bindTooltip(
+                `<div>
+                     台積電 AP5 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_2d228b647609358d4f1330c8563dbadc = L.polygon(
+                [[24.217901, 120.618393], [24.218547, 120.617499], [24.218812, 120.617482], [24.218866, 120.617578], [24.218868, 120.618118], [24.219117, 120.618159], [24.219097, 120.620247], [24.21854, 120.6205], [24.217917, 120.620484], [24.217735, 120.620346]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_8ae59f210ee594e961815fa260b53ecf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_672ed1d47102355161eb2d5cace7ddcc = $(`<div id="html_672ed1d47102355161eb2d5cace7ddcc" style="width: 100.0%; height: 100.0%;"><b>台中零廢製造中心</b></div>`)[0];
+                popup_8ae59f210ee594e961815fa260b53ecf.setContent(html_672ed1d47102355161eb2d5cace7ddcc);
+            
+        
+
+        polygon_2d228b647609358d4f1330c8563dbadc.bindPopup(popup_8ae59f210ee594e961815fa260b53ecf)
+        ;
+
+        
+    
+    
+            polygon_2d228b647609358d4f1330c8563dbadc.bindTooltip(
+                `<div>
+                     台中零廢製造中心
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_8039c9fa784d0d97bf5c8bdca1656f2c = L.polygon(
+                [[22.709036, 120.309586], [22.710023, 120.311178], [22.71044, 120.310996], [22.711394, 120.31252], [22.711269, 120.312668], [22.711647, 120.313366], [22.708753, 120.315414], [22.707774, 120.313353], [22.707393, 120.313551], [22.706121, 120.311368]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_050f275d4edaa380957fab05ac0cd5a5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a48dcd089f6ddeabe4868336e98e1532 = $(`<div id="html_a48dcd089f6ddeabe4868336e98e1532" style="width: 100.0%; height: 100.0%;"><b>台積電 F22 廠</b></div>`)[0];
+                popup_050f275d4edaa380957fab05ac0cd5a5.setContent(html_a48dcd089f6ddeabe4868336e98e1532);
+            
+        
+
+        polygon_8039c9fa784d0d97bf5c8bdca1656f2c.bindPopup(popup_050f275d4edaa380957fab05ac0cd5a5)
+        ;
+
+        
+    
+    
+            polygon_8039c9fa784d0d97bf5c8bdca1656f2c.bindTooltip(
+                `<div>
+                     台積電 F22 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_df0e0cd59f2a9fc120df27334b47ca49 = L.polygon(
+                [[24.884367, 121.184084], [24.88423, 121.186584], [24.882323, 121.186456], [24.882495, 121.183958]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_cf36d5c8dd66de6e29219ea450dc6b57 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_89f1cd1275290ad9c5133061a574e7cd = $(`<div id="html_89f1cd1275290ad9c5133061a574e7cd" style="width: 100.0%; height: 100.0%;"><b>台積電 AP3 廠</b></div>`)[0];
+                popup_cf36d5c8dd66de6e29219ea450dc6b57.setContent(html_89f1cd1275290ad9c5133061a574e7cd);
+            
+        
+
+        polygon_df0e0cd59f2a9fc120df27334b47ca49.bindPopup(popup_cf36d5c8dd66de6e29219ea450dc6b57)
+        ;
+
+        
+    
+    
+            polygon_df0e0cd59f2a9fc120df27334b47ca49.bindTooltip(
+                `<div>
+                     台積電 AP3 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_8671dd9e147b0a4265c990d64443e54c = L.polygon(
+                [[24.70323, 120.908459], [24.703207, 120.906236], [24.709369, 120.906242], [24.709336, 120.908146]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_0f3a493b60a85619c7ad957dc765adce = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5eac7ab657a8eca09d67a837b4d412d6 = $(`<div id="html_5eac7ab657a8eca09d67a837b4d412d6" style="width: 100.0%; height: 100.0%;"><b>台積電 AP6 廠</b></div>`)[0];
+                popup_0f3a493b60a85619c7ad957dc765adce.setContent(html_5eac7ab657a8eca09d67a837b4d412d6);
+            
+        
+
+        polygon_8671dd9e147b0a4265c990d64443e54c.bindPopup(popup_0f3a493b60a85619c7ad957dc765adce)
+        ;
+
+        
+    
+    
+            polygon_8671dd9e147b0a4265c990d64443e54c.bindTooltip(
+                `<div>
+                     台積電 AP6 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_5a737a284d1e71bb28c5c6164275c0c0 = L.polygon(
+                [[24.764687, 121.00186], [24.767499, 121.002788], [24.766183, 121.007464], [24.763308, 121.006402]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_5042fbedf1fc902a8cb1350f28926db2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a920ea3586447df5437f2079257d585b = $(`<div id="html_a920ea3586447df5437f2079257d585b" style="width: 100.0%; height: 100.0%;"><b>台積電 F20 廠</b></div>`)[0];
+                popup_5042fbedf1fc902a8cb1350f28926db2.setContent(html_a920ea3586447df5437f2079257d585b);
+            
+        
+
+        polygon_5a737a284d1e71bb28c5c6164275c0c0.bindPopup(popup_5042fbedf1fc902a8cb1350f28926db2)
+        ;
+
+        
+    
+    
+            polygon_5a737a284d1e71bb28c5c6164275c0c0.bindTooltip(
+                `<div>
+                     台積電 F20 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_f261ddf2c9b07c360316daca88527564 = L.polygon(
+                [[24.773022, 121.010353], [24.774771, 121.012461], [24.772975, 121.014548], [24.771347, 121.012944]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_6f3109156e2df066f4ba0dc2bbe9c63a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bff10016673afc2f576bde8fb543e6a6 = $(`<div id="html_bff10016673afc2f576bde8fb543e6a6" style="width: 100.0%; height: 100.0%;"><b>台積電 F12P1&2 廠</b></div>`)[0];
+                popup_6f3109156e2df066f4ba0dc2bbe9c63a.setContent(html_bff10016673afc2f576bde8fb543e6a6);
+            
+        
+
+        polygon_f261ddf2c9b07c360316daca88527564.bindPopup(popup_6f3109156e2df066f4ba0dc2bbe9c63a)
+        ;
+
+        
+    
+    
+            polygon_f261ddf2c9b07c360316daca88527564.bindTooltip(
+                `<div>
+                     台積電 F12P1&2 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_76b4ce36a78cfe3d67d4a9e41bcbd1fb = L.polygon(
+                [[24.769878, 121.010905], [24.771193, 121.012924], [24.770647, 121.013607], [24.769822, 121.014109], [24.767651, 121.011096], [24.76866, 121.010739]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_210467549299f5d9abbb5e18783e55ca = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a07583b1ed755158541f27f624318c44 = $(`<div id="html_a07583b1ed755158541f27f624318c44" style="width: 100.0%; height: 100.0%;"><b>台積電 F12P4&5 廠</b></div>`)[0];
+                popup_210467549299f5d9abbb5e18783e55ca.setContent(html_a07583b1ed755158541f27f624318c44);
+            
+        
+
+        polygon_76b4ce36a78cfe3d67d4a9e41bcbd1fb.bindPopup(popup_210467549299f5d9abbb5e18783e55ca)
+        ;
+
+        
+    
+    
+            polygon_76b4ce36a78cfe3d67d4a9e41bcbd1fb.bindTooltip(
+                `<div>
+                     台積電 F12P4&5 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_22ccf39ee0d81b434d63c109b8ea62f5 = L.polygon(
+                [[24.771438, 121.009267], [24.772856, 121.010237], [24.771313, 121.012809], [24.770037, 121.010997], [24.770751, 121.010482]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_fb5812793a4254a3ee24873f1b9f8d9f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fe3ba37dd0e6dd36efdba713bab05216 = $(`<div id="html_fe3ba37dd0e6dd36efdba713bab05216" style="width: 100.0%; height: 100.0%;"><b>台積電 F12P6 廠</b></div>`)[0];
+                popup_fb5812793a4254a3ee24873f1b9f8d9f.setContent(html_fe3ba37dd0e6dd36efdba713bab05216);
+            
+        
+
+        polygon_22ccf39ee0d81b434d63c109b8ea62f5.bindPopup(popup_fb5812793a4254a3ee24873f1b9f8d9f)
+        ;
+
+        
+    
+    
+            polygon_22ccf39ee0d81b434d63c109b8ea62f5.bindTooltip(
+                `<div>
+                     台積電 F12P6 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_ad2e22158bbac61642106a81066ad4c4 = L.polygon(
+                [[24.767562, 121.011198], [24.769513, 121.01431], [24.767834, 121.015373], [24.766462, 121.013011], [24.766503, 121.012542], [24.766819, 121.011837]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_f413ea1df58206dbbfdc1b639e057a40 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c141c0496e9d9c04d8478a980d9cc773 = $(`<div id="html_c141c0496e9d9c04d8478a980d9cc773" style="width: 100.0%; height: 100.0%;"><b>台積電 F12P7 廠</b></div>`)[0];
+                popup_f413ea1df58206dbbfdc1b639e057a40.setContent(html_c141c0496e9d9c04d8478a980d9cc773);
+            
+        
+
+        polygon_ad2e22158bbac61642106a81066ad4c4.bindPopup(popup_f413ea1df58206dbbfdc1b639e057a40)
+        ;
+
+        
+    
+    
+            polygon_ad2e22158bbac61642106a81066ad4c4.bindTooltip(
+                `<div>
+                     台積電 F12P7 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_384e6710025ea036aa9bf475e2a35344 = L.polygon(
+                [[24.770349, 121.008625], [24.770309, 121.010572], [24.769786, 121.010746], [24.76836, 121.010563], [24.767955, 121.010715], [24.766788, 121.011694], [24.766861, 121.008381], [24.768116, 121.008181], [24.768328, 121.00816], [24.76958, 121.008297]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_42903a6eb0307648b2d2acb28059472c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_eefa99ce7ef58068fb486a1a62ce4171 = $(`<div id="html_eefa99ce7ef58068fb486a1a62ce4171" style="width: 100.0%; height: 100.0%;"><b>台積電 F12P8 廠</b></div>`)[0];
+                popup_42903a6eb0307648b2d2acb28059472c.setContent(html_eefa99ce7ef58068fb486a1a62ce4171);
+            
+        
+
+        polygon_384e6710025ea036aa9bf475e2a35344.bindPopup(popup_42903a6eb0307648b2d2acb28059472c)
+        ;
+
+        
+    
+    
+            polygon_384e6710025ea036aa9bf475e2a35344.bindTooltip(
+                `<div>
+                     台積電 F12P8 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_4d7d8a90c7fc8da6da53e696c8814803 = L.polygon(
+                [[23.117909, 120.261374], [23.12114, 120.259796], [23.122033, 120.261913], [23.118956, 120.263582]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_3d2c3194bf31cf95fe83195f8ec57647 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9389148a7c573237cbae9ad5a061b1df = $(`<div id="html_9389148a7c573237cbae9ad5a061b1df" style="width: 100.0%; height: 100.0%;"><b>台積電 F18P1 廠</b></div>`)[0];
+                popup_3d2c3194bf31cf95fe83195f8ec57647.setContent(html_9389148a7c573237cbae9ad5a061b1df);
+            
+        
+
+        polygon_4d7d8a90c7fc8da6da53e696c8814803.bindPopup(popup_3d2c3194bf31cf95fe83195f8ec57647)
+        ;
+
+        
+    
+    
+            polygon_4d7d8a90c7fc8da6da53e696c8814803.bindTooltip(
+                `<div>
+                     台積電 F18P1 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_4e1770d0750ea6c987289b50643a8166 = L.polygon(
+                [[23.117805, 120.257763], [23.119772, 120.256815], [23.121056, 120.259705], [23.119123, 120.260661]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_f41dbd7944216a1751ffabe508277f69 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0fe72c9b606ab95b871d3737802664bb = $(`<div id="html_0fe72c9b606ab95b871d3737802664bb" style="width: 100.0%; height: 100.0%;"><b>台積電 F18P2 廠</b></div>`)[0];
+                popup_f41dbd7944216a1751ffabe508277f69.setContent(html_0fe72c9b606ab95b871d3737802664bb);
+            
+        
+
+        polygon_4e1770d0750ea6c987289b50643a8166.bindPopup(popup_f41dbd7944216a1751ffabe508277f69)
+        ;
+
+        
+    
+    
+            polygon_4e1770d0750ea6c987289b50643a8166.bindTooltip(
+                `<div>
+                     台積電 F18P2 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_2ef55802a53d2e26e9452c9aa984cdb0 = L.polygon(
+                [[23.118892, 120.263711], [23.120678, 120.267745], [23.118201, 120.267531], [23.117833, 120.267303], [23.116813, 120.264822]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.4, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_24ccc36b1beddad7518f9f127f90ba95);
+        
+    
+        var popup_9908590cbbd3f6085b975ea6a7f7119a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_029d1ac95cac9fde905008b64af44fa7 = $(`<div id="html_029d1ac95cac9fde905008b64af44fa7" style="width: 100.0%; height: 100.0%;"><b>台積電 F18P7 廠</b></div>`)[0];
+                popup_9908590cbbd3f6085b975ea6a7f7119a.setContent(html_029d1ac95cac9fde905008b64af44fa7);
+            
+        
+
+        polygon_2ef55802a53d2e26e9452c9aa984cdb0.bindPopup(popup_9908590cbbd3f6085b975ea6a7f7119a)
+        ;
+
+        
+    
+    
+            polygon_2ef55802a53d2e26e9452c9aa984cdb0.bindTooltip(
+                `<div>
+                     台積電 F18P7 廠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_24ccc36b1beddad7518f9f127f90ba95.addTo(map_cca190194c91863007fac35779e5695a);
+        
+    
+            var feature_group_cdb786b71e6935f0e8b70fa2ade8b383 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            feature_group_cdb786b71e6935f0e8b70fa2ade8b383.addTo(map_cca190194c91863007fac35779e5695a);
+        
+    
+            var feature_group_41658f3777d3ae3091249e15b5311c47 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_ecc6ae9607375afa65941278875f7b13 = L.marker(
+                [24.887787, 121.1883272],
+                {
+}
+            ).addTo(feature_group_41658f3777d3ae3091249e15b5311c47);
+        
+    
+            var icon_3075050fc341ef6f7b715308bc1e140a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_ecc6ae9607375afa65941278875f7b13.bindTooltip(
+                `<div>
+                     竹科龍潭(環保中心)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ecc6ae9607375afa65941278875f7b13.setIcon(icon_3075050fc341ef6f7b715308bc1e140a);
+            
+    
+            var marker_a916ce2bed60be5995d206e7f706ac4b = L.marker(
+                [24.882046, 121.195207],
+                {
+}
+            ).addTo(feature_group_41658f3777d3ae3091249e15b5311c47);
+        
+    
+            var icon_3f1e44596e7c84ab9cff045e4a345b65 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_a916ce2bed60be5995d206e7f706ac4b.bindTooltip(
+                `<div>
+                     竹科德龍(德龍國小)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a916ce2bed60be5995d206e7f706ac4b.setIcon(icon_3f1e44596e7c84ab9cff045e4a345b65);
+            
+    
+            var marker_499c6e56765469ea9a65ec51186ddf2a = L.marker(
+                [24.889177, 121.201821],
+                {
+}
+            ).addTo(feature_group_41658f3777d3ae3091249e15b5311c47);
+        
+    
+            var icon_160ac816e7a09a403245513cf3d55176 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "caret-up",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_499c6e56765469ea9a65ec51186ddf2a.bindTooltip(
+                `<div>
+                     竹科聖德(聖德里)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_499c6e56765469ea9a65ec51186ddf2a.setIcon(icon_160ac816e7a09a403245513cf3d55176);
+            
+    
+            feature_group_41658f3777d3ae3091249e15b5311c47.addTo(map_cca190194c91863007fac35779e5695a);
+        
+    
+            var feature_group_a03856ee1fa562d66023f701ee8f7786 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_5d54f64565663e9b972a219888614996 = L.marker(
+                [24.2153, 120.6244],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_005cfac7f6a655119310358a25d9dc15 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_5d54f64565663e9b972a219888614996.bindTooltip(
+                `<div>
+                     大雅(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5d54f64565663e9b972a219888614996.setIcon(icon_005cfac7f6a655119310358a25d9dc15);
+            
+    
+            var marker_b6a73fa96e221c764188849ef1e9b31a = L.marker(
+                [22.7304, 120.3125],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_9afdfb8103deeaa0837c8648c1f5fe6f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_b6a73fa96e221c764188849ef1e9b31a.bindTooltip(
+                `<div>
+                     高雄(人工)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b6a73fa96e221c764188849ef1e9b31a.setIcon(icon_9afdfb8103deeaa0837c8648c1f5fe6f);
+            
+    
+            var marker_bfc1291f2b4920abafebd8967f241966 = L.marker(
+                [24.889177, 121.201821],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_d5077c1c4718dcc2a8e6c34be9816ae3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_bfc1291f2b4920abafebd8967f241966.bindTooltip(
+                `<div>
+                     龍潭(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bfc1291f2b4920abafebd8967f241966.setIcon(icon_d5077c1c4718dcc2a8e6c34be9816ae3);
+            
+    
+            var marker_69572e9d0cdd08afec2a692540096ef6 = L.marker(
+                [24.7987, 120.9869],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_a63a421db19da77f27b51a494f5dc632 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_69572e9d0cdd08afec2a692540096ef6.bindTooltip(
+                `<div>
+                     新竹市東區(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_69572e9d0cdd08afec2a692540096ef6.setIcon(icon_a63a421db19da77f27b51a494f5dc632);
+            
+    
+            var marker_c59f8baa40aef9ee77ed516b02322fe2 = L.marker(
+                [24.735, 121.0252],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_e6dc14966569e4ce4514311fd60a2faf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_c59f8baa40aef9ee77ed516b02322fe2.bindTooltip(
+                `<div>
+                     寶山(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c59f8baa40aef9ee77ed516b02322fe2.setIcon(icon_e6dc14966569e4ce4514311fd60a2faf);
+            
+    
+            var marker_89e2a7a6611284f8ef8b8901c29c5d31 = L.marker(
+                [24.7671, 121.0579],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_20176fba47013184c15a4ca46d68127a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_89e2a7a6611284f8ef8b8901c29c5d31.bindTooltip(
+                `<div>
+                     竹東(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_89e2a7a6611284f8ef8b8901c29c5d31.setIcon(icon_20176fba47013184c15a4ca46d68127a);
+            
+    
+            var marker_8731b19ee475f5e530ae969922ed3de2 = L.marker(
+                [24.6882, 120.9122],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_120b6337bfc0217d18e06d7809aaa348 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_8731b19ee475f5e530ae969922ed3de2.bindTooltip(
+                `<div>
+                     頭份(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8731b19ee475f5e530ae969922ed3de2.setIcon(icon_120b6337bfc0217d18e06d7809aaa348);
+            
+    
+            var marker_ec493aecc0b04235465da138550ff023 = L.marker(
+                [24.7, 120.8591],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_37798326b3605f197900f0884d5bb2a3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_ec493aecc0b04235465da138550ff023.bindTooltip(
+                `<div>
+                     龍鳳(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ec493aecc0b04235465da138550ff023.setIcon(icon_37798326b3605f197900f0884d5bb2a3);
+            
+    
+            var marker_9e7c019ae1eccdf04e04a5ea5aa40418 = L.marker(
+                [23.4929, 120.2906],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_08f93a8cbd7f96fd6b2701824bdc12db = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_9e7c019ae1eccdf04e04a5ea5aa40418.bindTooltip(
+                `<div>
+                     六腳(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9e7c019ae1eccdf04e04a5ea5aa40418.setIcon(icon_08f93a8cbd7f96fd6b2701824bdc12db);
+            
+    
+            var marker_4722a91143ac08f8483a4233dbc4e412 = L.marker(
+                [23.5143, 120.2297],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_3593c2e7cded7ec345999405a216c7a7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_4722a91143ac08f8483a4233dbc4e412.bindTooltip(
+                `<div>
+                     蔦松(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4722a91143ac08f8483a4233dbc4e412.setIcon(icon_3593c2e7cded7ec345999405a216c7a7);
+            
+    
+            var marker_1c1e53e9c86317305f6983ddf1aa202c = L.marker(
+                [23.1129, 120.2972],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_02ea3d9c229f13c90138d913b7d464c3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_1c1e53e9c86317305f6983ddf1aa202c.bindTooltip(
+                `<div>
+                     善化(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1c1e53e9c86317305f6983ddf1aa202c.setIcon(icon_02ea3d9c229f13c90138d913b7d464c3);
+            
+    
+            var marker_49e0a2f38da48ed9a376854efcae574f = L.marker(
+                [23.1026, 120.2276],
+                {
+}
+            ).addTo(feature_group_a03856ee1fa562d66023f701ee8f7786);
+        
+    
+            var icon_725adc3ef985bda998486ef56b951673 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "cloud",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_49e0a2f38da48ed9a376854efcae574f.bindTooltip(
+                `<div>
+                     安定(自動)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_49e0a2f38da48ed9a376854efcae574f.setIcon(icon_725adc3ef985bda998486ef56b951673);
+            
+    
+            feature_group_a03856ee1fa562d66023f701ee8f7786.addTo(map_cca190194c91863007fac35779e5695a);
+        
+    
+            var layer_control_70b6304a9bbc3d75c2a375ae2259a61e_layers = {
+                base_layers : {
+                    "OpenStreetMap" : tile_layer_3cb94bf03cc98625864cb36dde598c18,
+                    "Google Satellite" : tile_layer_fb08c2345a0a592170413d55adafaee0,
+                },
+                overlays :  {
+                    "\u5ee0\u5340\u7bc4\u570d" : feature_group_24ccc36b1beddad7518f9f127f90ba95,
+                    "\u74b0\u5883\u90e8\u6e2c\u7ad9" : feature_group_cdb786b71e6935f0e8b70fa2ade8b383,
+                    "\u7279\u6b8a\u6027\u5de5\u696d\u5340\u6e2c\u7ad9" : feature_group_41658f3777d3ae3091249e15b5311c47,
+                    "\u6c23\u8c61\u7f72\u6e2c\u7ad9" : feature_group_a03856ee1fa562d66023f701ee8f7786,
+                },
+            };
+            let layer_control_70b6304a9bbc3d75c2a375ae2259a61e = L.control.layers(
+                layer_control_70b6304a9bbc3d75c2a375ae2259a61e_layers.base_layers,
+                layer_control_70b6304a9bbc3d75c2a375ae2259a61e_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_cca190194c91863007fac35779e5695a);
+
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_cca190194c91863007fac35779e5695a);
+        
+    
+            var mouse_position_18a6181651a21877c03cde5e600295fd = new L.Control.MousePosition(
+                {
+  "position": "bottomright",
+  "separator": " : ",
+  "emptyString": "Unavailable",
+  "lngFirst": false,
+  "numDigits": 5,
+  "prefix": "",
+}
+            );
+            mouse_position_18a6181651a21877c03cde5e600295fd.options["latFormatter"] =
+                undefined;
+            mouse_position_18a6181651a21877c03cde5e600295fd.options["lngFormatter"] =
+                undefined;
+            map_cca190194c91863007fac35779e5695a.addControl(mouse_position_18a6181651a21877c03cde5e600295fd);
+        
+    
+            var measure_control_e30a8ec6723605c6a36c55f6ef1389c6 = new L.Control.Measure(
+                {
+  "position": "topleft",
+  "primaryLengthUnit": "kilometers",
+  "secondaryLengthUnit": "meters",
+  "primaryAreaUnit": "sqmeters",
+  "secondaryAreaUnit": "acres",
+  "activeColor": "red",
+  "completedColor": "red",
+});
+            map_cca190194c91863007fac35779e5695a.addControl(measure_control_e30a8ec6723605c6a36c55f6ef1389c6);
+
+            // Workaround for using this plugin with Leaflet>=1.8.0
+            // https://github.com/ljagis/leaflet-measure/issues/171
+            L.Control.Measure.include({
+                _setCaptureMarkerIcon: function () {
+                    // disable autopan
+                    this._captureMarker.options.autoPanOnFocus = false;
+                    // default function
+                    this._captureMarker.setIcon(
+                        L.divIcon({
+                            iconSize: this._map.getSize().multiplyBy(2)
+                        })
+                    );
+                },
+            });
+
+        
+</script>
+</html>
